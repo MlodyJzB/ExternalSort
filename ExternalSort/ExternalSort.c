@@ -15,20 +15,35 @@ void sort(FILE *sourceP, FILE *destinationP) {
 	fclose(runs2P);
 }
 
-void txtToRunsFiles(FILE* sourceP, FILE* runs1, FILE* runs2) {
+void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P) {
 	int num;
 	int prevNum = INT_MIN;
+	FILE* curFileP = runs1P;
 
 	while (fscanf_s(sourceP, "%d", &num) != EOF) {
-	
+		if (num < prevNum) {
+			switchCurRunFile(&curFileP, runs1P, runs2P);
+		}
+
+		fwrite(&num, sizeof(int), 1, curFileP);
+		prevNum = num;
+	}
+}
+
+switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
+	if (*curFilePP == runs1P) {
+		*curFilePP = runs2P;
+	}
+	else {
+		*curFilePP = runs1P;
 	}
 }
 
 void openRunFiles(FILE** runs1PP, FILE** runs2PP) {
-	if (fopen_s(*runs1PP, "runs1.bin", "w+") != 0) {
+	if (fopen_s(runs1PP, "runs1.bin", "w") != 0) {
 		exit(1);
 	}
-	if (fopen_s(*runs2PP, "runs2.bin", "w+") != 0) {
+	if (fopen_s(runs2PP, "runs2.bin", "w") != 0) {
 		exit(1);
 	}
 }
