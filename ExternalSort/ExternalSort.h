@@ -6,8 +6,10 @@
 
 void sort(FILE* sourceP, FILE* destinationP);
 
-void txtToRunsFiles(sourceP, runs1, runs2);
-
 void openRunFiles(FILE** runs1PP, FILE** runs2PP);
+
+void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P);
+
+void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P);
 
 #endif /* treeMethods.h */

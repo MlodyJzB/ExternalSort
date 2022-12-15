@@ -15,6 +15,15 @@ void sort(FILE *sourceP, FILE *destinationP) {
 	fclose(runs2P);
 }
 
+void openRunFiles(FILE** runs1PP, FILE** runs2PP) {
+	if (fopen_s(runs1PP, "runs1.bin", "w") != 0) {
+		exit(1);
+	}
+	if (fopen_s(runs2PP, "runs2.bin", "w") != 0) {
+		exit(1);
+	}
+}
+
 void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P) {
 	int num;
 	int prevNum = INT_MIN;
@@ -30,7 +39,7 @@ void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P) {
 	}
 }
 
-switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
+void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
 	if (*curFilePP == runs1P) {
 		*curFilePP = runs2P;
 	}
@@ -38,13 +47,3 @@ switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
 		*curFilePP = runs1P;
 	}
 }
-
-void openRunFiles(FILE** runs1PP, FILE** runs2PP) {
-	if (fopen_s(runs1PP, "runs1.bin", "w") != 0) {
-		exit(1);
-	}
-	if (fopen_s(runs2PP, "runs2.bin", "w") != 0) {
-		exit(1);
-	}
-}
-
