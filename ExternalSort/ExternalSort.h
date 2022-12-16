@@ -6,7 +6,7 @@
 
 void sort(FILE* sourceP, FILE* destinationP);
 
-void openRunFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]);
+void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]);
 
 void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P);
 

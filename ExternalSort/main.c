@@ -13,7 +13,7 @@ int main()
 	FILE* runs1P;
 	FILE* runs2P;
 
-	openRunFiles(&runs1P, &runs2P, "w");
+	openRunSFiles(&runs1P, &runs2P, "w");
 
 	txtToRunsFiles(sourceP, runs1P, runs2P);
 

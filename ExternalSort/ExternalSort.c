@@ -3,18 +3,21 @@
 #include <limits.h>
 #include "../ExternalSort/ExternalSort.h"
 
+#define END INT_MAX
+#define BEGINNING INT_MIN
+
 void sort(FILE *sourceP, FILE *destinationP) {
 	FILE* runs1P;
 	FILE* runs2P;
 
-	openRunFiles(&runs1P, &runs2P, "r");
+	openRunsFiles(&runs1P, &runs2P, "r");
 	txtToRunsFiles(sourceP, runs1P, runs2P);
 
 	fclose(runs1P);
 	fclose(runs2P);
 }
 
-void openRunFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]) {
+void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]) {
 	if (fopen_s(runs1PP, "runs1.bin", mode) != 0) {
 		exit(1);
 	}
@@ -39,22 +42,15 @@ void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P) {
 }
 
 void runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
-	int curNumRuns1 = INT_MIN;
-	int curNumRuns2 = INT_MIN;
-	int limit;
+	int curNumRuns1 = BEGINNING;
+	int curNumRuns2 = BEGINNING;
 
-	while ((curNumRuns1 != INT_MAX)||(curNumRuns2 != INT_MAX)) {
-		if (curNumRuns1 != INT_MAX) {
-			if (curNumRuns1 != INT_MIN) {
-				fwrite(&curNumRuns1, sizeof(int), 1, mergeP);
-			}
+	while ((curNumRuns1 != END)||(curNumRuns2 != END)) {
+		if (curNumRuns1 != END) {
 			curNumRuns1 = copyUntilGreater(mergeP, runs1P, curNumRuns2);
 		}
 
-		if (curNumRuns2 != INT_MAX) {
-			if (curNumRuns2 != INT_MIN) {
-				fwrite(&curNumRuns2, sizeof(int), 1, mergeP);
-			}
+		if (curNumRuns2 != END) {
 			curNumRuns2 = copyUntilGreater(mergeP, runs2P, curNumRuns1);
 		}
 	}
@@ -66,13 +62,14 @@ int copyUntilGreater(FILE* destP, FILE* sourceP, int limit) {
 	while(1) {
 		int wasRead = fread(&num, sizeof(int), 1, sourceP);
 		if (wasRead == 0) { 
-			num = INT_MAX;
+			num = END;
 			break;
 		}
 		else if (num <= limit) {
 			fwrite(&num, sizeof(int), 1, destP);
 		}
 		else {
+			fseek(sourceP, -(long)sizeof(int), SEEK_CUR); // move cursor before greater number
 			break;
 		}
 	}
