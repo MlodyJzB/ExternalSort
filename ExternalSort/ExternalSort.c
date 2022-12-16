@@ -13,6 +13,15 @@ void sort(FILE* sourceP, FILE* destinationP) {
 	openRunsFiles(&runs1P, &runs2P, "w");
 	txtToRunsFiles(sourceP, runs1P, runs2P);
 	closeRunsFiles(runs1P, runs2P);
+
+	while () {
+		openRunsFiles(&runs1P, &runs2P, "r");
+
+		FILE* mergeP;
+		openMergeFile(&mergeP, "w");
+
+		runsToMergeFile();
+	}
 }
 
 void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]) {
@@ -53,6 +62,15 @@ void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P) {
 	}
 }
 
+void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
+	if (*curFilePP == runs1P) {
+		*curFilePP = runs2P;
+	}
+	else {
+		*curFilePP = runs1P;
+	}
+}
+
 void runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
 	int curNumRuns1 = BEGINNING;
 	int curNumRuns2 = BEGINNING;
@@ -88,11 +106,17 @@ int copyUntilGreater(FILE* destP, FILE* sourceP, int limit) {
 	return num;
 }
 
-void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
-	if (*curFilePP == runs1P) {
-		*curFilePP = runs2P;
-	}
-	else {
-		*curFilePP = runs1P;
+void mergeToRunsFiles(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
+	int num;
+	int prevNum = INT_MIN;
+	FILE* curFileP = runs1P;
+
+	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
+		if (num < prevNum) {
+			switchCurRunFile(&curFileP, runs1P, runs2P);
+		}
+
+		fwrite(&num, sizeof(int), 1, curFileP);
+		prevNum = num;
 	}
 }

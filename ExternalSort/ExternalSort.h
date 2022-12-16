@@ -14,10 +14,10 @@ void openMergeFile(FILE** mergePP, char mode[2]);
 
 void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P);
 
+void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P);
+
 void runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P);
 
 int copyUntilGreater(FILE* destP, FILE* sourceP, int limit);
-
-void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P);
 
 #endif /* treeMethods.h */
