@@ -10,17 +10,13 @@ void sort(FILE* sourceP, FILE* destinationP) {
 	FILE* runs1P;
 	FILE* runs2P;
 
-	openRunsFiles(&runs1P, &runs2P, "w");
-	txtToRunsFiles(sourceP, runs1P, runs2P);
-	closeRunsFiles(runs1P, runs2P);
-
-	while () {
+	while (1) {
 		openRunsFiles(&runs1P, &runs2P, "r");
 
 		FILE* mergeP;
 		openMergeFile(&mergeP, "w");
 
-		runsToMergeFile();
+		// runsToMergeFile();
 	}
 }
 
@@ -47,18 +43,10 @@ void openMergeFile(FILE** mergePP, char mode[2]) {
 	}
 }
 
-void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P) {
+void txtToMergeFile(FILE* sourceP, FILE* mergeP) {
 	int num;
-	int prevNum = INT_MIN;
-	FILE* curFileP = runs1P;
-
 	while (fscanf_s(sourceP, "%d", &num) != EOF) {
-		if (num < prevNum) {
-			switchCurRunFile(&curFileP, runs1P, runs2P);
-		}
-
-		fwrite(&num, sizeof(int), 1, curFileP);
-		prevNum = num;
+		fwrite(&num, sizeof(int), 1, mergeP);
 	}
 }
 

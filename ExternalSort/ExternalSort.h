@@ -12,7 +12,7 @@ void closeRunsFiles(FILE* runs1P, FILE* runs2P);
 
 void openMergeFile(FILE** mergePP, char mode[2]);
 
-void txtToRunsFiles(FILE* sourceP, FILE* runs1P, FILE* runs2P);
+void txtToMergeFile(FILE* sourceP, FILE* mergeP);
 
 void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P);
 

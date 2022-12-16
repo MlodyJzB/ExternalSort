@@ -6,11 +6,18 @@ int main()
 {
 	FILE* sourceP;
 
-	if (fopen_s(&sourceP, "numbers.txt", "r+") != 0) {
+	if (fopen_s(&sourceP, "numbers.txt", "r") != 0) {
 		exit(1);
 	}
 
-	FILE* runs1P;
+	FILE* mergeP;
+	openMergeFile(&mergeP, "w");
+
+	txtToMergeFile(sourceP, mergeP);
+
+	fclose(mergeP);
+
+	/*FILE* runs1P;
 	FILE* runs2P;
 
 	openRunSFiles(&runs1P, &runs2P, "w");
@@ -34,7 +41,8 @@ int main()
 	fclose(runs2P);
 	fclose(mergeP);
 
-	fopen_s(&mergeP, "merge.bin", "r");
+	fopen_s(&mergeP, "merge.bin", "r");*/
+	openMergeFile(&mergeP, "r");
 
 	int num;
 	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
