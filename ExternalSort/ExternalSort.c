@@ -6,22 +6,34 @@
 #define END INT_MAX
 #define BEGINNING INT_MIN
 
-void sort(FILE *sourceP, FILE *destinationP) {
+void sort(FILE* sourceP, FILE* destinationP) {
 	FILE* runs1P;
 	FILE* runs2P;
 
-	openRunsFiles(&runs1P, &runs2P, "r");
+	openRunsFiles(&runs1P, &runs2P, "w");
 	txtToRunsFiles(sourceP, runs1P, runs2P);
-
-	fclose(runs1P);
-	fclose(runs2P);
+	closeRunsFiles(runs1P, runs2P);
 }
 
 void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]) {
 	if (fopen_s(runs1PP, "runs1.bin", mode) != 0) {
+		printf("Missing runs1.bin");
 		exit(1);
 	}
 	if (fopen_s(runs2PP, "runs2.bin", mode) != 0) {
+		printf("Missing runs1.bin");
+		exit(1);
+	}
+}
+
+void closeRunsFiles(FILE* runs1P, FILE* runs2P) {
+	fclose(runs1P);
+	fclose(runs2P);
+}
+
+void openMergeFile(FILE** mergePP, char mode[2]) {
+	if (fopen_s(mergePP, "merge.bin", mode) != 0) {
+		printf("Missing meerge.bin");
 		exit(1);
 	}
 }
