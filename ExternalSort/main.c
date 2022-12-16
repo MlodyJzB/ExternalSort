@@ -10,12 +10,7 @@ int main()
 		exit(1);
 	}
 
-	FILE* mergeP;
-	openMergeFile(&mergeP, "w");
-
-	txtToMergeFile(sourceP, mergeP);
-
-	fclose(mergeP);
+	sort(sourceP, NULL);
 
 	/*FILE* runs1P;
 	FILE* runs2P;
@@ -42,12 +37,6 @@ int main()
 	fclose(mergeP);
 
 	fopen_s(&mergeP, "merge.bin", "r");*/
-	openMergeFile(&mergeP, "r");
 
-	int num;
-	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
-		printf("%d ", num);
-	}
-
-	fclose(mergeP);
+	fclose(sourceP);
 }

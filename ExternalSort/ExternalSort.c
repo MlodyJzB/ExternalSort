@@ -6,17 +6,43 @@
 #define END INT_MAX
 #define BEGINNING INT_MIN
 
+#define TRUE 1
+#define FALSE 0
+
 void sort(FILE* sourceP, FILE* destinationP) {
-	FILE* runs1P;
-	FILE* runs2P;
+	int isSorted = FALSE;
 
-	while (1) {
+	FILE* mergeP;
+	openMergeFile(&mergeP, "w");
+	txtToMergeFile(sourceP, mergeP);
+	fclose(mergeP);
+
+	do {
+		FILE* runs1P;
+		FILE* runs2P;
+		openRunsFiles(&runs1P, &runs2P,"w");
+		openMergeFile(&mergeP, "r");
+
+		mergeToRunsFiles(mergeP, runs1P, runs2P);
+
+		closeRunsFiles(runs1P, runs2P);
+		fclose(mergeP);
+
+
 		openRunsFiles(&runs1P, &runs2P, "r");
-
-		FILE* mergeP;
 		openMergeFile(&mergeP, "w");
 
-		// runsToMergeFile();
+		isSorted = runsToMergeFile(mergeP, runs1P, runs2P);
+
+		closeRunsFiles(runs1P, runs2P);
+		fclose(mergeP);
+	} while (isSorted == FALSE);
+
+	openMergeFile(&mergeP, "r");
+
+	int num;
+	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
+		printf("%d ", num);
 	}
 }
 
@@ -38,7 +64,7 @@ void closeRunsFiles(FILE* runs1P, FILE* runs2P) {
 
 void openMergeFile(FILE** mergePP, char mode[2]) {
 	if (fopen_s(mergePP, "merge.bin", mode) != 0) {
-		printf("Missing meerge.bin");
+		printf("Missing merge.bin");
 		exit(1);
 	}
 }
@@ -59,9 +85,10 @@ void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
 	}
 }
 
-void runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
+int runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
 	int curNumRuns1 = BEGINNING;
 	int curNumRuns2 = BEGINNING;
+	int iter = 0;
 
 	while ((curNumRuns1 != END)||(curNumRuns2 != END)) {
 		if (curNumRuns1 != END) {
@@ -71,6 +98,13 @@ void runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
 		if (curNumRuns2 != END) {
 			curNumRuns2 = copyUntilGreater(mergeP, runs2P, curNumRuns1);
 		}
+		iter++;
+	}
+	if (iter > 2) {
+		return FALSE;
+	}
+	else {
+		return TRUE;
 	}
 }
 
