@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="ExternalSort.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="SortFilesPrepare.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExternalSort.h" />
+    <ClInclude Include="SortFilesPrepare.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="numbers.txt" />

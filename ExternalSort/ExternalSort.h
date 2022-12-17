@@ -6,14 +6,6 @@
 
 void sort(FILE* sourceP, FILE* destinationP);
 
-void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]);
-
-void closeRunsFiles(FILE* runs1P, FILE* runs2P);
-
-void openMergeFile(FILE** mergePP, char mode[2]);
-
-void txtToMergeFile(FILE* sourceP, FILE* mergeP);
-
 void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P);
 
 int runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P);
@@ -22,10 +14,4 @@ int copyUntilGreater(FILE* destP, FILE* sourceP, int limit);
 
 void mergeToRunsFiles(FILE* mergeP, FILE* runs1P, FILE* runs2P);
 
-void mergeToTxtFile(FILE* destP, FILE* mergeP);
-
-void clearMergeAndRuns();
-
-void clearFile(const char* fileName);
-
-#endif /* treeMethods.h */
+#endif /* ExternalSort.h */
