@@ -62,13 +62,9 @@ int runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
 	int iter = 0;
 
 	while ((curNumRuns1 != END)||(curNumRuns2 != END)) {
-		if (curNumRuns1 != END) {
-			curNumRuns1 = copyUntilGreater(mergeP, runs1P, curNumRuns2);
-		}
+		curNumRuns1 = copyUntilGreater(mergeP, runs1P, curNumRuns2);
+		curNumRuns2 = copyUntilGreater(mergeP, runs2P, curNumRuns1);
 
-		if (curNumRuns2 != END) {
-			curNumRuns2 = copyUntilGreater(mergeP, runs2P, curNumRuns1);
-		}
 		iter++;
 	}
 	if (iter > 2) {
