@@ -22,4 +22,6 @@ int copyUntilGreater(FILE* destP, FILE* sourceP, int limit);
 
 void mergeToRunsFiles(FILE* mergeP, FILE* runs1P, FILE* runs2P);
 
+void mergeToTxtFile(FILE* destP, FILE* mergeP);
+
 #endif /* treeMethods.h */

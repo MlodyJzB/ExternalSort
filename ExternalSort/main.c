@@ -7,36 +7,18 @@ int main()
 	FILE* sourceP;
 
 	if (fopen_s(&sourceP, "numbers.txt", "r") != 0) {
+		printf("Missing numbers.txt");
 		exit(1);
 	}
 
-	sort(sourceP, NULL);
-
-	/*FILE* runs1P;
-	FILE* runs2P;
-
-	openRunSFiles(&runs1P, &runs2P, "w");
-
-	txtToRunsFiles(sourceP, runs1P, runs2P);
-
-	fclose(sourceP);
-	fclose(runs1P);
-	fclose(runs2P);
-
-	openRunFiles(&runs1P, &runs2P, "r");
-
-	FILE* mergeP;
-	if (fopen_s(&mergeP, "merge.bin", "w") != 0) {
+	FILE* destP;
+	if (fopen_s(&destP, "sortedNumbers.txt", "w") != 0) {
+		printf("Missing sortedNumbers.txt");
 		exit(1);
 	}
 
-	runsToMergeFile(mergeP, runs1P, runs2P);
-
-	fclose(runs1P);
-	fclose(runs2P);
-	fclose(mergeP);
-
-	fopen_s(&mergeP, "merge.bin", "r");*/
+	sort(sourceP, destP);
 
 	fclose(sourceP);
+	fclose(destP);
 }

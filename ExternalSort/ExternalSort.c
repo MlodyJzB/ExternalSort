@@ -39,11 +39,8 @@ void sort(FILE* sourceP, FILE* destinationP) {
 	} while (isSorted == FALSE);
 
 	openMergeFile(&mergeP, "r");
-
-	int num;
-	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
-		printf("%d ", num);
-	}
+	mergeToTxtFile(destinationP, mergeP);
+	fclose(mergeP);
 }
 
 void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]) {
@@ -140,5 +137,12 @@ void mergeToRunsFiles(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
 
 		fwrite(&num, sizeof(int), 1, curFileP);
 		prevNum = num;
+	}
+}
+
+void mergeToTxtFile(FILE* destP, FILE* mergeP) {
+	int num;
+	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
+		fprintf(destP, "%d ", num);
 	}
 }
