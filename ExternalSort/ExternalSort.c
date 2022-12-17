@@ -19,32 +19,38 @@ void sort(FILE* sourceP, FILE* destinationP) {
 	txtToMergeFile(sourceP, mergeP);
 	fclose(mergeP);
 
-	do {
-		FILE* runs1P;
-		FILE* runs2P;
-		openRunsFiles(&runs1P, &runs2P,"w");
-		openMergeFile(&mergeP, "r");
-
-		mergeToRunsFiles(mergeP, runs1P, runs2P);
-
-		closeRunsFiles(runs1P, runs2P);
-		fclose(mergeP);
-
-
-		openRunsFiles(&runs1P, &runs2P, "r");
-		openMergeFile(&mergeP, "w");
-
-		isSorted = runsToMergeFile(mergeP, runs1P, runs2P);
-
-		closeRunsFiles(runs1P, runs2P);
-		fclose(mergeP);
-	} while (isSorted == FALSE);
+	while (isSorted == FALSE) {
+		isSorted = oneSortIteration(mergeP);
+	}
 
 	openMergeFile(&mergeP, "r");
 	mergeToTxtFile(destinationP, mergeP);
 	fclose(mergeP);
 
 	clearMergeAndRuns();
+}
+
+int oneSortIteration(FILE* mergeP) {
+	FILE* runs1P;
+	FILE* runs2P;
+	openRunsFiles(&runs1P, &runs2P, "w");
+	openMergeFile(&mergeP, "r");
+
+	mergeToRunsFiles(mergeP, runs1P, runs2P);
+
+	closeRunsFiles(runs1P, runs2P);
+	fclose(mergeP);
+
+
+	openRunsFiles(&runs1P, &runs2P, "r");
+	openMergeFile(&mergeP, "w");
+
+	int isSorted = runsToMergeFile(mergeP, runs1P, runs2P);
+
+	closeRunsFiles(runs1P, runs2P);
+	fclose(mergeP);
+
+	return isSorted;
 }
 
 void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P) {
@@ -94,6 +100,7 @@ int copyUntilGreater(FILE* destP, FILE* sourceP, int limit) {
 	}
 	return num;
 }
+
 
 void mergeToRunsFiles(FILE* mergeP, FILE* runs1P, FILE* runs2P) {
 	int num;

@@ -6,6 +6,8 @@
 
 void sort(FILE* sourceP, FILE* destinationP);
 
+int oneSortIteration(FILE* mergeP);
+
 void switchCurRunFile(FILE** curFilePP, FILE* runs1P, FILE* runs2P);
 
 int runsToMergeFile(FILE* mergeP, FILE* runs1P, FILE* runs2P);
