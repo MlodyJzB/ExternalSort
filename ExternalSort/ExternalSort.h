@@ -24,4 +24,8 @@ void mergeToRunsFiles(FILE* mergeP, FILE* runs1P, FILE* runs2P);
 
 void mergeToTxtFile(FILE* destP, FILE* mergeP);
 
+void clearMergeAndRuns();
+
+void clearFile(const char* fileName);
+
 #endif /* treeMethods.h */

@@ -41,6 +41,7 @@ void sort(FILE* sourceP, FILE* destinationP) {
 	openMergeFile(&mergeP, "r");
 	mergeToTxtFile(destinationP, mergeP);
 	fclose(mergeP);
+	clearMergeAndRuns();
 }
 
 void openRunsFiles(FILE** runs1PP, FILE** runs2PP, char mode[2]) {
@@ -145,4 +146,19 @@ void mergeToTxtFile(FILE* destP, FILE* mergeP) {
 	while (fread(&num, sizeof(int), 1, mergeP) != 0) {
 		fprintf(destP, "%d ", num);
 	}
+}
+
+void clearMergeAndRuns() {
+	clearFile("merge.bin");
+	clearFile("runs1.bin");
+	clearFile("runs2.bin");
+}
+
+void clearFile(const char* fileName) {
+	FILE* fileP;
+	if (fopen_s(&fileP, fileName, "w") != 0) {
+		printf("Missing %s.", fileName);
+		exit(1);
+	}
+	fclose(fileP);
 }
